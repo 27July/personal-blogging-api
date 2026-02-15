@@ -1,4 +1,8 @@
-package com.zhcode.personalbloggingapi.Repository;
+package com.zhcode.personalbloggingapi.repository;
 
-public interface ArticleRepository {
+import com.zhcode.personalbloggingapi.domain.Article;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ArticleRepository extends JpaRepository<Article, Long> {
+
 }
