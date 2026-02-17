@@ -1,11 +1,14 @@
+server:
+  port: ${APP_PORT:8080}
+
 spring:
   application:
     name: personal-blogging-api
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/blogdb
-    username: zh
-    password: password
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/blogdb}
+    username: ${SPRING_DATASOURCE_USERNAME:zh}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
 
   jpa:
     hibernate:
