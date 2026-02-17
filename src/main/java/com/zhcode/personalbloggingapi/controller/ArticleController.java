@@ -51,8 +51,10 @@ public class ArticleController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id){
-        articleService.delete(id);
+    public void delete(@PathVariable Long id,
+                       @RequestHeader("Token")String token){
+        User currentUser = authService.requireUserFromToken(token);
+        articleService.delete(id, currentUser);
     }
 
     @PutMapping("/{id}")

@@ -40,10 +40,11 @@ public class ArticleService {
         return toResponse(a);
     }
 
-    public void delete(Long id){
-        if (!articleRepository.existsById(id)) {
+    public void delete(Long id, User currentUser){
 
-            throw new RuntimeException("Article not found" + id);
+        Article a = articleRepository.findById(id).orElseThrow(()-> new RuntimeException("Article not found" + id));
+        if (!a.getAuthor().getId().equals(currentUser.getId())){
+            throw new RuntimeException("Forbidden: you are not the author");
         }
         articleRepository.deleteById(id);
     }
