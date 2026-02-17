@@ -5,7 +5,10 @@ import com.zhcode.personalbloggingapi.domain.User;
 import com.zhcode.personalbloggingapi.dto.ArticleCreateRequest;
 import com.zhcode.personalbloggingapi.dto.ArticleResponse;
 import com.zhcode.personalbloggingapi.dto.ArticleUpdateRequest;
+import com.zhcode.personalbloggingapi.exception.ForbiddenException;
+import com.zhcode.personalbloggingapi.exception.NotFoundException;
 import com.zhcode.personalbloggingapi.repository.ArticleRepository;
+import org.hibernate.annotations.NotFound;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,23 +39,23 @@ public class ArticleService {
     }
 
     public ArticleResponse getById(Long id){
-        Article a = articleRepository.findById(id).orElseThrow(()-> new RuntimeException("Article not found" + id));
+        Article a = articleRepository.findById(id).orElseThrow(()-> new NotFoundException("Article not found" + id));
         return toResponse(a);
     }
 
     public void delete(Long id, User currentUser){
 
-        Article a = articleRepository.findById(id).orElseThrow(()-> new RuntimeException("Article not found" + id));
+        Article a = articleRepository.findById(id).orElseThrow(()-> new NotFoundException("Article not found" + id));
         if (!a.getAuthor().getId().equals(currentUser.getId())){
-            throw new RuntimeException("Forbidden: you are not the author");
+            throw new ForbiddenException("Forbidden: you are not the author");
         }
         articleRepository.deleteById(id);
     }
 
     public ArticleResponse update(Long id, ArticleUpdateRequest req, User currentUser){
-        Article a = articleRepository.findById(id).orElseThrow(()-> new RuntimeException("Article not found: " + id));
+        Article a = articleRepository.findById(id).orElseThrow(()-> new NotFoundException("Article not found: " + id));
         if(!a.getAuthor().getId().equals(currentUser.getId())){
-            throw new RuntimeException("Forbidden: you are not the author");
+            throw new ForbiddenException("Forbidden: you are not the author");
         }
         a.setTitle(req.getTitle());
         a.setContent(req.getContent());

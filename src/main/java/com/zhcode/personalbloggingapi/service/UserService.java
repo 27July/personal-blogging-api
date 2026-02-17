@@ -5,6 +5,8 @@ import com.zhcode.personalbloggingapi.dto.LoginRequest;
 import com.zhcode.personalbloggingapi.dto.LoginResponse;
 import com.zhcode.personalbloggingapi.dto.RegisterRequest;
 import com.zhcode.personalbloggingapi.dto.UserResponse;
+import com.zhcode.personalbloggingapi.exception.ConflictException;
+import com.zhcode.personalbloggingapi.exception.ForbiddenException;
 import com.zhcode.personalbloggingapi.repository.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,7 @@ public class UserService {
 
     public UserResponse register(RegisterRequest req){
         if (userRepository.existsByUsername(req.getUsername())){
-            throw new RuntimeException("Username already taken");
+            throw new ConflictException("Username already taken");
         }
 
         String hash = BCrypt.hashpw(req.getPassword(), BCrypt.gensalt());
@@ -35,11 +37,11 @@ public class UserService {
     }
 
     public LoginResponse login(LoginRequest req){
-        User u = userRepository.findByUsername(req.getUsername()).orElseThrow(()-> new RuntimeException("Invalid username or password"));
+        User u = userRepository.findByUsername(req.getUsername()).orElseThrow(()-> new ForbiddenException("Invalid username or password"));
 
         boolean ok = BCrypt.checkpw(req.getPassword(), u.getPasswordHash());
         if (!ok){
-            throw new RuntimeException("Invalid username or password");
+            throw new ForbiddenException("Invalid username or password");
         }
 
         String token = "token-" + u.getId();

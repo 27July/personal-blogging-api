@@ -1,6 +1,7 @@
 package com.zhcode.personalbloggingapi.service;
 
 import com.zhcode.personalbloggingapi.domain.User;
+import com.zhcode.personalbloggingapi.exception.UnauthorisedException;
 import com.zhcode.personalbloggingapi.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,11 @@ public class AuthService {
 
     public User requireUserFromToken(String token){
         if(token == null || token.isBlank()){
-            throw new RuntimeException("Missing authentication token");
+            throw new UnauthorisedException("Missing authentication token");
         }
 
         if(!token.startsWith("token-")){
-            throw new RuntimeException("Invalid token format");
+            throw new UnauthorisedException("Invalid token format");
         }
 
         String idPart = token.substring("token-".length());
@@ -28,9 +29,9 @@ public class AuthService {
         try{
             userId = Long.parseLong(idPart);
         }catch (NumberFormatException e){
-            throw new RuntimeException("Invalid token user id");
+            throw new UnauthorisedException("Invalid token user id");
         }
 
-        return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found for token"));
+        return userRepository.findById(userId).orElseThrow(() -> new UnauthorisedException("User not found for token"));
     }
 }
