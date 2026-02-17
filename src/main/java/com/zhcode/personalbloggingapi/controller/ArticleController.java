@@ -2,6 +2,7 @@ package com.zhcode.personalbloggingapi.controller;
 
 import com.zhcode.personalbloggingapi.dto.ArticleCreateRequest;
 import com.zhcode.personalbloggingapi.dto.ArticleResponse;
+import com.zhcode.personalbloggingapi.dto.ArticleUpdateRequest;
 import com.zhcode.personalbloggingapi.service.ArticleService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -41,4 +42,8 @@ public class ArticleController {
         articleService.delete(id);
     }
 
+    @PutMapping("/{id}")
+    public ArticleResponse update(@PathVariable Long id, @Valid @RequestBody ArticleUpdateRequest req){
+        return articleService.update(id, req);
+    }
 }

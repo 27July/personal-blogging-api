@@ -3,6 +3,7 @@ package com.zhcode.personalbloggingapi.service;
 import com.zhcode.personalbloggingapi.domain.Article;
 import com.zhcode.personalbloggingapi.dto.ArticleCreateRequest;
 import com.zhcode.personalbloggingapi.dto.ArticleResponse;
+import com.zhcode.personalbloggingapi.dto.ArticleUpdateRequest;
 import com.zhcode.personalbloggingapi.repository.ArticleRepository;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,15 @@ public class ArticleService {
             throw new RuntimeException("Article not found" + id);
         }
         articleRepository.deleteById(id);
+    }
+
+    public ArticleResponse update(Long id, ArticleUpdateRequest req){
+        Article a = articleRepository.findById(id).orElseThrow(()-> new RuntimeException("Article not found: " + id));
+        a.setTitle(req.getTitle());
+        a.setContent(req.getContent());
+
+        Article saved = articleRepository.save(a);
+        return toResponse(saved);
     }
 
 
