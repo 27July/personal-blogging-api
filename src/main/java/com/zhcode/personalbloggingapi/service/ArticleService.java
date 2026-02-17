@@ -1,6 +1,7 @@
 package com.zhcode.personalbloggingapi.service;
 
 import com.zhcode.personalbloggingapi.domain.Article;
+import com.zhcode.personalbloggingapi.domain.User;
 import com.zhcode.personalbloggingapi.dto.ArticleCreateRequest;
 import com.zhcode.personalbloggingapi.dto.ArticleResponse;
 import com.zhcode.personalbloggingapi.dto.ArticleUpdateRequest;
@@ -17,10 +18,11 @@ public class ArticleService {
         this.articleRepository = articleRepository;
     }
 
-    public ArticleResponse create(ArticleCreateRequest req){
+    public ArticleResponse create(ArticleCreateRequest req, User author){
         Article a = new Article();
         a.setTitle(req.getTitle());
         a.setContent(req.getContent());
+        a.setAuthor(author);
         //We have @PrePersist for the timestamps
 
         Article saved = articleRepository.save(a);

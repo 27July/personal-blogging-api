@@ -1,9 +1,11 @@
 package com.zhcode.personalbloggingapi.controller;
 
+import com.zhcode.personalbloggingapi.domain.User;
 import com.zhcode.personalbloggingapi.dto.ArticleCreateRequest;
 import com.zhcode.personalbloggingapi.dto.ArticleResponse;
 import com.zhcode.personalbloggingapi.dto.ArticleUpdateRequest;
 import com.zhcode.personalbloggingapi.service.ArticleService;
+import com.zhcode.personalbloggingapi.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,15 +17,18 @@ import java.util.List;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final AuthService authService;
 
-    public ArticleController(ArticleService articleService) {
+    public ArticleController(ArticleService articleService, AuthService authService) {
         this.articleService = articleService;
+        this.authService = authService;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ArticleResponse create(@Valid @RequestBody ArticleCreateRequest req){
-        return articleService.create(req);
+    public ArticleResponse create(@Valid @RequestBody ArticleCreateRequest req, @RequestHeader("Token")String token){
+        User currentUser = authService.requireUserFromToken(token);
+        return articleService.create(req, currentUser);
     }
 
     @GetMapping
