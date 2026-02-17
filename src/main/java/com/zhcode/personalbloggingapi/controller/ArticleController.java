@@ -32,8 +32,16 @@ public class ArticleController {
     }
 
     @GetMapping
-    public List<ArticleResponse> list(){
+    public List<ArticleResponse> list(
+            @RequestParam(required = false)Boolean mine,
+            @RequestHeader(value = "Token", required = false) String token
+    ){
+        if(Boolean.TRUE.equals(mine)){
+            User currentUser = authService.requireUserFromToken(token);
+            return articleService.listMine(currentUser);
+        }
         return articleService.list();
+
     }
 
     @GetMapping("/{id}")

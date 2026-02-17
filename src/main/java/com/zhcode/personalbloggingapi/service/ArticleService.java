@@ -57,6 +57,10 @@ public class ArticleService {
         return toResponse(saved);
     }
 
+    public List<ArticleResponse> listMine(User user){
+        return articleRepository.findByAuthorId(user.getId()).stream().map(this::toResponse).toList();
+    }
+
 
     private ArticleResponse toResponse(Article a){
         return new ArticleResponse(a.getId(),
