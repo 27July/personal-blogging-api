@@ -32,6 +32,12 @@ public class ArticleService {
                 .toList();
     }
 
+    public ArticleResponse getById(Long id){
+        Article a = articleRepository.findById(id).orElseThrow(()-> new RuntimeException("Article not found" + id));
+        return toResponse(a);
+    }
+
+
     private ArticleResponse toResponse(Article a){
         return new ArticleResponse(a.getId(),
                 a.getTitle(),

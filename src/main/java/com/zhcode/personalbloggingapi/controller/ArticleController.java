@@ -30,4 +30,9 @@ public class ArticleController {
         return articleService.list();
     }
 
+    @GetMapping("/{id}")
+    public ArticleResponse getOne(@PathVariable Long id){
+        return articleService.getById(id);
+    }
+
 }
