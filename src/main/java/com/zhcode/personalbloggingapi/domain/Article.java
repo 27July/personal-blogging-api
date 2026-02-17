@@ -24,6 +24,10 @@ public class Article {
     @Column(nullable = false)
     private Instant updatedAt;
 
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", nullable = false)
+    private User author;
+
     @PrePersist
     void onCreate(){
         Instant now = Instant.now();
@@ -74,5 +78,13 @@ public class Article {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 }
