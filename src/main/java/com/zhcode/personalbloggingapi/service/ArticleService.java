@@ -37,6 +37,14 @@ public class ArticleService {
         return toResponse(a);
     }
 
+    public void delete(Long id){
+        if (!articleRepository.existsById(id)) {
+
+            throw new RuntimeException("Article not found" + id);
+        }
+        articleRepository.deleteById(id);
+    }
+
 
     private ArticleResponse toResponse(Article a){
         return new ArticleResponse(a.getId(),
