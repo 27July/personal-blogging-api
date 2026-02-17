@@ -1,6 +1,8 @@
 package com.zhcode.personalbloggingapi.service;
 
 import com.zhcode.personalbloggingapi.domain.User;
+import com.zhcode.personalbloggingapi.dto.LoginRequest;
+import com.zhcode.personalbloggingapi.dto.LoginResponse;
 import com.zhcode.personalbloggingapi.dto.RegisterRequest;
 import com.zhcode.personalbloggingapi.dto.UserResponse;
 import com.zhcode.personalbloggingapi.repository.UserRepository;
@@ -30,5 +32,18 @@ public class UserService {
         User saved = userRepository.save(u);
 
         return new UserResponse(saved.getId(), saved.getUsername(), saved.getCreatedAt());
+    }
+
+    public LoginResponse login(LoginRequest req){
+        User u = userRepository.findByUsername(req.getUsername()).orElseThrow(()-> new RuntimeException("Invalid username or password"));
+
+        boolean ok = BCrypt.checkpw(req.getPassword(), u.getPasswordHash());
+        if (!ok){
+            throw new RuntimeException("Invalid username or password");
+        }
+
+        String token = "token-" + u.getId();
+
+        return new LoginResponse(u.getId(), u.getUsername(), token);
     }
 }

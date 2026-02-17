@@ -1,5 +1,7 @@
 package com.zhcode.personalbloggingapi.controller;
 
+import com.zhcode.personalbloggingapi.dto.LoginRequest;
+import com.zhcode.personalbloggingapi.dto.LoginResponse;
 import com.zhcode.personalbloggingapi.dto.RegisterRequest;
 import com.zhcode.personalbloggingapi.dto.UserResponse;
 import com.zhcode.personalbloggingapi.service.UserService;
@@ -21,5 +23,10 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponse register(@Valid @RequestBody RegisterRequest req){
         return userService.register(req);
+    }
+
+    @PostMapping("/login")
+    public LoginResponse login(@Valid @RequestBody LoginRequest req){
+        return userService.login(req);
     }
 }
