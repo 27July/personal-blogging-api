@@ -58,7 +58,8 @@ public class ArticleController {
     }
 
     @PutMapping("/{id}")
-    public ArticleResponse update(@PathVariable Long id, @Valid @RequestBody ArticleUpdateRequest req){
-        return articleService.update(id, req);
+    public ArticleResponse update(@PathVariable Long id, @Valid @RequestBody ArticleUpdateRequest req, @RequestHeader("Token")String token){
+        User currentUser = authService.requireUserFromToken(token);
+        return articleService.update(id, req, currentUser);
     }
 }

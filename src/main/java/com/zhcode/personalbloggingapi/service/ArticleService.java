@@ -49,8 +49,11 @@ public class ArticleService {
         articleRepository.deleteById(id);
     }
 
-    public ArticleResponse update(Long id, ArticleUpdateRequest req){
+    public ArticleResponse update(Long id, ArticleUpdateRequest req, User currentUser){
         Article a = articleRepository.findById(id).orElseThrow(()-> new RuntimeException("Article not found: " + id));
+        if(!a.getAuthor().getId().equals(currentUser.getId())){
+            throw new RuntimeException("Forbidden: you are not the author");
+        }
         a.setTitle(req.getTitle());
         a.setContent(req.getContent());
 
