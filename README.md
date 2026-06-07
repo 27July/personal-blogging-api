@@ -1,9 +1,8 @@
-<h1 align="center">Personal Blogging API ✍️</h1>
+<h1 align="center">Personal Blogging API ✍🏼</h1>
 
 ## About:
 Personal Blogging API is a lightweight RESTful backend powering a simple personal blogging platform. 
 It includes basic authentication (no JWT/Spring Security yet) plus full CRUD for articles with ownership enforcement. The whole stack is dockerised and runs with `docker compose up`. 
-A full list of features that we provide are avaliable [here](#features).
 
 ## Technology and Tools:
 [![Java](https://img.shields.io/badge/Java-%23ED8B00.svg?&logo=openjdk&logoColor=white)](https://www.oracle.com/java/)
