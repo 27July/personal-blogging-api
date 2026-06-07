@@ -11,6 +11,11 @@ It includes basic authentication (no JWT/Spring Security yet) plus full CRUD for
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-%23316192.svg?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Docker](https://img.shields.io/badge/Docker-%230db7ed.svg?logo=docker&logoColor=white)](https://www.docker.com/)
 
+## Gallery:
+<p align="left">
+  <img src="gallery/personalBloggingApi.png" alt="Actuator Pic" width="300" style="margin-right: 10px;" />
+</p>
+
 ## Running the Application:
 ### Prerequisites:
 Make sure you have the following installed:
